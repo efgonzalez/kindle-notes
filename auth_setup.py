@@ -8,7 +8,7 @@ session to state/kindle_session.json for headless reuse.
 Re-run this script whenever the session expires.
 """
 
-import os
+import argparse
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
@@ -19,10 +19,20 @@ NOTEBOOK_URL = "https://read.amazon.com/notebook"
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Interactive login to save Amazon Kindle session")
+    parser.add_argument(
+        "--chrome", action="store_true",
+        help="Use system Chrome instead of Playwright's bundled Chromium",
+    )
+    args = parser.parse_args()
+
     STATE_DIR.mkdir(exist_ok=True)
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, channel="chrome")
+        launch_opts = {"headless": False}
+        if args.chrome:
+            launch_opts["channel"] = "chrome"
+        browser = p.chromium.launch(**launch_opts)
         context = browser.new_context()
         page = context.new_page()
 

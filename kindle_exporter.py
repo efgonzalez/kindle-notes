@@ -162,6 +162,10 @@ def main():
         "--force", action="store_true",
         help="Re-export all books (default: skip books that already have a file)",
     )
+    parser.add_argument(
+        "--chrome", action="store_true",
+        help="Use system Chrome instead of Playwright's bundled Chromium",
+    )
     args = parser.parse_args()
 
     if not SESSION_FILE.exists():
@@ -173,7 +177,10 @@ def main():
     existing = existing_book_files(NOTES_DIR)
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, channel="chrome")
+        launch_opts = {"headless": True}
+        if args.chrome:
+            launch_opts["channel"] = "chrome"
+        browser = p.chromium.launch(**launch_opts)
         context = browser.new_context(storage_state=str(SESSION_FILE))
         page = context.new_page()
 
