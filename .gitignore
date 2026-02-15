@@ -1,0 +1,15 @@
+# Virtual environment
+.venv/
+
+# Session/credentials
+state/
+
+# Exported book notes (private data)
+notes/
+
+# Cron log
+cron.log
+
+# Python
+__pycache__/
+*.pyc
