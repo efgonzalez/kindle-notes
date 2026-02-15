@@ -59,6 +59,27 @@ Markdown files are written to `notes/`, one per book.
 
 ## Automation
 
+### macOS Application Launcher
+
+For easy access on macOS, create an application in your Applications folder:
+
+```bash
+cat > /tmp/kindle_exporter_script.applescript << 'EOF'
+do shell script "cd '/path/to/kindle-notes' && /usr/bin/python3 kindle_exporter.py --chrome > /tmp/kindle_export.log 2>&1"
+
+display notification "Kindle notes export completed. Check log for details." with title "Kindle Exporter"
+
+do shell script "open /tmp/kindle_export.log"
+EOF
+
+osacompile -o "/Applications/0 Kindle Notes Exporter.app" /tmp/kindle_exporter_script.applescript
+rm /tmp/kindle_exporter_script.applescript
+```
+
+Replace `/path/to/kindle-notes` with your actual project path. The app will appear at the top of your Applications folder (starts with "0"), and when run it will export new highlights and show the results.
+
+### Cron Job
+
 A weekly cron job runs the exporter every Monday at 5am:
 
 ```
