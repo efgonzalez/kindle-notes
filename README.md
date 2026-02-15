@@ -52,5 +52,5 @@ Markdown files are written to `notes/`, one per book.
 A weekly cron job runs the exporter every Monday at 9am:
 
 ```
-0 9 * * 1 /home/edu/kindle-notes/.venv/bin/python kindle_exporter.py >> cron.log 2>&1
+0 9 * * 1 cd /path/to/kindle-notes && .venv/bin/python kindle_exporter.py >> cron.log 2>&1
 ```
