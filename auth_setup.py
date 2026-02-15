@@ -22,7 +22,7 @@ def main():
     STATE_DIR.mkdir(exist_ok=True)
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=False, channel="chrome")
         context = browser.new_context()
         page = context.new_page()
 

@@ -173,7 +173,7 @@ def main():
     existing = existing_book_files(NOTES_DIR)
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=True, channel="chrome")
         context = browser.new_context(storage_state=str(SESSION_FILE))
         page = context.new_page()
 
